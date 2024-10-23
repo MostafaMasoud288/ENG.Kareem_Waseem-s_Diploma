@@ -1,0 +1,313 @@
+Coverage Report by file with details
+
+=================================================================================
+=== File: ALU.v
+=================================================================================
+Statement Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    Stmts                            8         8         0     100.0
+
+================================Statement Details================================
+
+Statement Coverage for file ALU.v --
+
+    1                                                module ALU (
+    2                                                    input  clk,
+    3                                                    input  reset,
+    4                                                    input  [1:0] Opcode,	// The opcode
+    5                                                    input  signed [3:0] A,	// Input data A in 2's complement
+    6                                                    input  signed [3:0] B,	// Input data B in 2's complement
+    7                                                
+    8                                                    output reg signed [4:0] C // ALU output in 2's complement
+    9                                                
+    10                                               		  );
+    11                                               
+    12                                                  reg signed [4:0] 	    Alu_out; // ALU output in 2's complement
+    13                                               
+    14                                                  localparam 		    Add	           = 2'b00; // A + B
+    15                                                  localparam 		    Sub	           = 2'b01; // A - B
+    16                                                  localparam 		    Not_A	         = 2'b10; // ~A
+    17                                                  localparam 		    ReductionOR_B  = 2'b11; // |B
+    18                                               
+    19                                                  // Do the operation
+    20              1                       4979        always @* begin
+    21                                                     case (Opcode)
+    22              1                       1217           	Add:            Alu_out = A + B;
+    23              1                       1262           	Sub:            Alu_out = A - B;
+    24              1                       1226           	Not_A:          Alu_out = ~A;
+    25              1                       1274           	ReductionOR_B:  Alu_out = |B;
+    26              1                          E             default:  Alu_out = 5'b0;
+    27                                                     endcase
+    28                                                  end // always @ *
+    29                                               
+    30                                                  // Register output C
+    31              1                       5148        always @(posedge clk or posedge reset) begin
+    32                                                     if (reset)
+    33              1                        460     	     C <= 5'b0;
+    34                                                     else
+    35              1                       4688     	     C<= Alu_out;
+    36                                                  end
+    37                                               
+    38                                               endmodule
+
+Branch Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    Branches                         6         6         0     100.0
+
+================================Branch Details================================
+
+Branch Coverage for file ALU.v --
+
+------------------------------------CASE Branch------------------------------------
+    21                                      4979     Count coming in to CASE
+    22              1                       1217           	Add:            Alu_out = A + B;
+    23              1                       1262           	Sub:            Alu_out = A - B;
+    24              1                       1226           	Not_A:          Alu_out = ~A;
+    25              1                       1274           	ReductionOR_B:  Alu_out = |B;
+    26              1                          E             default:  Alu_out = 5'b0;
+Branch totals: 4 hits of 4 branches = 100.0%
+
+------------------------------------IF Branch------------------------------------
+    32                                      5148     Count coming in to IF
+    32              1                        460           if (reset)
+    34              1                       4688           else
+Branch totals: 2 hits of 2 branches = 100.0%
+
+
+Condition Coverage:
+    Enabled Coverage            Active   Covered    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    FEC Condition Terms              0         0         0     100.0
+Expression Coverage:
+    Enabled Coverage            Active   Covered    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    FEC Expression Terms             0         0         0     100.0
+FSM Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    FSMs                                                       100.0
+        States                       0         0         0     100.0
+        Transitions                  0         0         0     100.0
+Toggle Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    Toggle Bins                     44        44         0     100.0
+
+================================Toggle Details================================
+
+Toggle Coverage for File ALU.v --
+
+       Line                                   Node      1H->0L      0L->1H  "Coverage"
+--------------------------------------------------------------------------------------
+          2                                    clk           1           1      100.00 
+          3                                  reset           1           1      100.00 
+          4                              Opcode[1]           1           1      100.00 
+          4                              Opcode[0]           1           1      100.00 
+          5                                   A[3]           1           1      100.00 
+          5                                   A[2]           1           1      100.00 
+          5                                   A[1]           1           1      100.00 
+          5                                   A[0]           1           1      100.00 
+          6                                   B[3]           1           1      100.00 
+          6                                   B[2]           1           1      100.00 
+          6                                   B[1]           1           1      100.00 
+          6                                   B[0]           1           1      100.00 
+          8                                   C[4]           1           1      100.00 
+          8                                   C[3]           1           1      100.00 
+          8                                   C[2]           1           1      100.00 
+          8                                   C[1]           1           1      100.00 
+          8                                   C[0]           1           1      100.00 
+         12                             Alu_out[4]           1           1      100.00 
+         12                             Alu_out[3]           1           1      100.00 
+         12                             Alu_out[2]           1           1      100.00 
+         12                             Alu_out[1]           1           1      100.00 
+         12                             Alu_out[0]           1           1      100.00 
+
+Total Node Count     =         22 
+Toggled Node Count   =         22 
+Untoggled Node Count =          0 
+
+Toggle Coverage      =      100.0% (44 of 44 bins)
+
+=================================================================================
+=== File: ALU_tb.sv
+=================================================================================
+Statement Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    Stmts                           14        14         0     100.0
+
+================================Statement Details================================
+
+Statement Coverage for file ALU_tb.sv --
+
+    1                                                package aluuu;
+    2                                                class transaction;
+    3                                                    rand bit  reset;
+    4                                                    rand bit  [1:0] Opcode;
+    5                                                    rand bit  signed [3:0] A;	
+    6                                                    rand bit signed [3:0] B;	
+    7                                                localparam MAXPOS= 7,MAXNEG= -8 ;
+    8                                                constraint cons {
+    9                                                reset dist {1:/5,0:/95};
+    10                                               A dist {MAXPOS:/20,0:/20,MAXNEG:/20,[1:6]:/20,[-7:-1]:/20};
+    11                                               B dist {MAXPOS:/20,0:/20,MAXNEG:/20,[1:6]:/20,[-7:-1]:/20};
+    12                                               }
+    13                                               endclass
+    14                                               endpackage
+    15                                               
+    16                                               import aluuu::*;
+    17                                               module ALU_tb ();
+    18                                                   logic  clk;
+    19                                                   logic  reset;
+    20                                                   logic  [1:0] Opcode;	// The opcode
+    21                                                   logic  signed [3:0] A;	// Input data A in 2's complement
+    22                                                   logic  signed [3:0] B;	// Input data B in 2's complement
+    23                                               
+    24                                                   logic signed [4:0] C; // ALU output in 2's complement
+    25                                                ALU alu(.*);
+    26              1                          1      transaction tra =new;
+    27                                               
+    28                                               always
+    29                                               begin
+    30              1                       5000     clk=0;
+    31              1                       5000     #5;
+    32              1                       5000     clk=1;
+    33              1                       5000     #5;
+    34                                               end
+    35                                               
+    36                                               property rst;
+    37                                               @(posedge clk or posedge reset) reset |-> (C==0);
+    38                                               endproperty
+    39                                               
+    40                                               property addition;
+    41                                               @(posedge clk) (!reset&&Opcode==0) |-> (C==A+B);
+    42                                               endproperty
+    43                                               
+    44                                               property subtraction;
+    45                                               @(posedge clk) (!reset&&Opcode==1) |-> (C==A-B);
+    46                                               endproperty
+    47                                               
+    48                                               property invert_A;
+    49                                               @(posedge clk) (!reset&&Opcode==2) |-> (C==~A);
+    50                                               endproperty
+    51                                               
+    52                                               property red_or_B;
+    53                                               @(posedge clk) (!reset&&Opcode==3) |-> (C==|B);
+    54                                               endproperty
+    55                                               
+    56                                               
+    57                                               assert property (rst);
+    58                                               cover property (rst);
+    59                                               assert property (addition);
+    60                                               cover property (addition);
+    61                                               assert property (subtraction);
+    62                                               cover property (subtraction);
+    63                                               assert property (invert_A);
+    64                                               cover property (invert_A);
+    65                                               assert property (red_or_B);
+    66                                               cover property (red_or_B);
+    67                                               initial
+    68                                               begin 
+    69              1                          1     for(int i=0 ;i<5000;i++)begin
+    69              2                       5000     
+    70                                               randomization:assert(tra.randomize());
+    71              1                       5000     reset=tra.reset;
+    72              1                       5000     Opcode=tra.Opcode;
+    73              1                       5000     A=tra.A;
+    74              1                       5000     B=tra.B;
+    75              1                       5000     @(posedge clk);
+    76              1                       5000     #1;
+    77                                               end
+    78              1                          1     $stop;
+    79                                               end
+    80                                               
+    81                                               endmodule
+
+Branch Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    Branches                         0         0         0     100.0
+Condition Coverage:
+    Enabled Coverage            Active   Covered    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    FEC Condition Terms              0         0         0     100.0
+Expression Coverage:
+    Enabled Coverage            Active   Covered    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    FEC Expression Terms             0         0         0     100.0
+FSM Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    FSMs                                                       100.0
+        States                       0         0         0     100.0
+        Transitions                  0         0         0     100.0
+Toggle Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    Toggle Bins                     34        34         0     100.0
+
+================================Toggle Details================================
+
+Toggle Coverage for File ALU_tb.sv --
+
+       Line                                   Node      1H->0L      0L->1H  "Coverage"
+--------------------------------------------------------------------------------------
+         18                                    clk           1           1      100.00 
+         19                                  reset           1           1      100.00 
+         20                              Opcode[1]           1           1      100.00 
+         20                              Opcode[0]           1           1      100.00 
+         21                                   A[3]           1           1      100.00 
+         21                                   A[2]           1           1      100.00 
+         21                                   A[1]           1           1      100.00 
+         21                                   A[0]           1           1      100.00 
+         22                                   B[3]           1           1      100.00 
+         22                                   B[2]           1           1      100.00 
+         22                                   B[1]           1           1      100.00 
+         22                                   B[0]           1           1      100.00 
+         24                                   C[4]           1           1      100.00 
+         24                                   C[3]           1           1      100.00 
+         24                                   C[2]           1           1      100.00 
+         24                                   C[1]           1           1      100.00 
+         24                                   C[0]           1           1      100.00 
+
+Total Node Count     =         17 
+Toggled Node Count   =         17 
+Untoggled Node Count =          0 
+
+Toggle Coverage      =      100.0% (34 of 34 bins)
+
+
+DIRECTIVE COVERAGE:
+---------------------------------------------------------------------------------------------
+Name                                     Design Design   Lang File(Line)      Count Status    
+                                         Unit   UnitType                                      
+---------------------------------------------------------------------------------------------
+/ALU_tb/cover__red_or_B                  ALU_tb Verilog  SVA  ALU_tb.sv(66)     257 Covered   
+/ALU_tb/cover__invert_A                  ALU_tb Verilog  SVA  ALU_tb.sv(64)      90 Covered   
+/ALU_tb/cover__subtraction               ALU_tb Verilog  SVA  ALU_tb.sv(62)      62 Covered   
+/ALU_tb/cover__addition                  ALU_tb Verilog  SVA  ALU_tb.sv(60)      60 Covered   
+/ALU_tb/cover__rst                       ALU_tb Verilog  SVA  ALU_tb.sv(58)     236 Covered   
+
+TOTAL DIRECTIVE COVERAGE: 100.0%  COVERS: 5
+
+ASSERTION RESULTS:
+-------------------------------------------------------
+Name                 File(Line)           Failure Pass 
+                                          Count   Count 
+-------------------------------------------------------
+/ALU_tb/assert__red_or_B
+                     ALU_tb.sv(65)            963     1
+/ALU_tb/assert__invert_A
+                     ALU_tb.sv(63)           1085     1
+/ALU_tb/assert__subtraction
+                     ALU_tb.sv(61)           1139     1
+/ALU_tb/assert__addition
+                     ALU_tb.sv(59)           1108     1
+/ALU_tb/assert__rst  ALU_tb.sv(57)              0     1
+/ALU_tb/#anonblk#73512610#69#4#/randomization
+                     ALU_tb.sv(70)              0     1
+
+Total Coverage By File (code coverage only, filtered view): 100.0%
+

@@ -1,0 +1,717 @@
+Coverage Report by file with details
+
+=================================================================================
+=== File: FSM_010.v
+=================================================================================
+Statement Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    Stmts                           17        17         0     100.0
+
+================================Statement Details================================
+
+Statement Coverage for file FSM_010.v --
+
+    1                                                ////////////////////////////////////////////////////////////////////////////////
+    2                                                // Author: Kareem Waseem
+    3                                                // Course: Digital Verification using SV & UVM
+    4                                                //
+    5                                                // Description: 010-sequence-detector Design 
+    6                                                //
+    7                                                ////////////////////////////////////////////////////////////////////////////////
+    8                                                module FSM_010(clk, rst, x, y, users_count);
+    9                                                	parameter IDLE  = 2'b00;
+    10                                               	parameter ZERO  = 2'b01;
+    11                                               	parameter ONE   = 2'b10;
+    12                                               	parameter STORE = 2'b11; 
+    13                                               
+    14                                               	input clk, rst, x;
+    15                                               	output y;
+    16                                               	output reg [9:0] users_count;
+    17                                               
+    18                                               	reg [1:0] cs, ns;
+    19                                               
+    20              1                       5116     	always @(*) begin
+    21                                               		case (cs)
+    22                                               			IDLE:begin 
+    23                                               				if (x)
+    24              1                        505     					ns = IDLE;
+    25                                               				else 
+    26              1                        534     					ns = ZERO;end
+    27                                               			ZERO:begin
+    28                                               				if (x)
+    29              1                        890     					ns = ONE;
+    30                                               				else 
+    31              1                        909     					ns = ZERO;end
+    32                                               			ONE: begin
+    33                                               				if (x)
+    34              1                        881     					ns = IDLE;
+    35                                               				else 
+    36              1                        601     					ns = STORE;end
+    37                                               			STORE: begin
+    38                                               				if (x)
+    39              1                        201     					ns = IDLE;
+    40                                               				else 
+    41              1                        594     					ns = ZERO;end
+    42              1                          1     			default: 	ns = IDLE;
+    43                                               		endcase
+    44                                               	end
+    45                                               
+    46              1                       3749     	always @(posedge clk or posedge rst) begin
+    47                                               		if(rst) begin
+    48              1                        100     			cs <= IDLE;
+    49                                               		end
+    50                                               		else begin
+    51              1                       3649     			cs <= ns;
+    52                                               		end
+    53                                               	end
+    54                                               
+    55              1                       2982     	always @(posedge clk or posedge rst) begin
+    56                                               		if(rst) begin
+    57              1                        100     			users_count <= 0;
+    58                                               		end
+    59                                               		else begin
+    60                                               			if (cs == STORE)
+    61              1                        591     				users_count <= users_count + 1;
+    62                                               		end
+    63                                               	end
+    64                                               
+    65              1                       2903     	assign y = (cs == STORE)? 1:0;
+    66                                               
+    67                                               endmodule
+
+Branch Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    Branches                        21        21         0     100.0
+
+================================Branch Details================================
+
+Branch Coverage for file FSM_010.v --
+
+------------------------------------CASE Branch------------------------------------
+    21                                      5116     Count coming in to CASE
+    22              1                       1039     			IDLE:begin 
+    27              1                       1799     			ZERO:begin
+    32              1                       1482     			ONE: begin
+    37              1                        795     			STORE: begin
+    42              1                          1     			default: 	ns = IDLE;
+Branch totals: 5 hits of 5 branches = 100.0%
+
+------------------------------------IF Branch------------------------------------
+    23                                      1039     Count coming in to IF
+    23              1                        505     				if (x)
+    25              1                        534     				else 
+Branch totals: 2 hits of 2 branches = 100.0%
+
+------------------------------------IF Branch------------------------------------
+    28                                      1799     Count coming in to IF
+    28              1                        890     				if (x)
+    30              1                        909     				else 
+Branch totals: 2 hits of 2 branches = 100.0%
+
+------------------------------------IF Branch------------------------------------
+    33                                      1482     Count coming in to IF
+    33              1                        881     				if (x)
+    35              1                        601     				else 
+Branch totals: 2 hits of 2 branches = 100.0%
+
+------------------------------------IF Branch------------------------------------
+    38                                       795     Count coming in to IF
+    38              1                        201     				if (x)
+    40              1                        594     				else 
+Branch totals: 2 hits of 2 branches = 100.0%
+
+------------------------------------IF Branch------------------------------------
+    47                                      3749     Count coming in to IF
+    47              1                        100     		if(rst) begin
+    50              1                       3649     		else begin
+Branch totals: 2 hits of 2 branches = 100.0%
+
+------------------------------------IF Branch------------------------------------
+    56                                      2982     Count coming in to IF
+    56              1                        100     		if(rst) begin
+    59              1                       2882     		else begin
+Branch totals: 2 hits of 2 branches = 100.0%
+
+------------------------------------IF Branch------------------------------------
+    60                                      2882     Count coming in to IF
+    60              1                        591     			if (cs == STORE)
+                                            2291     All False Count
+Branch totals: 2 hits of 2 branches = 100.0%
+
+------------------------------------IF Branch------------------------------------
+    65                                      2902     Count coming in to IF
+    65              1                        594     	assign y = (cs == STORE)? 1:0;
+    65              2                       2308     	assign y = (cs == STORE)? 1:0;
+Branch totals: 2 hits of 2 branches = 100.0%
+
+
+Condition Coverage:
+    Enabled Coverage            Active   Covered    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    FEC Condition Terms              0         0         0     100.0
+Expression Coverage:
+    Enabled Coverage            Active   Covered    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    FEC Expression Terms             0         0         0     100.0
+FSM Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    FSMs                                                       100.0
+        States                       4         4         0     100.0
+        Transitions                  7         7         0     100.0
+
+================================FSM Details================================
+
+FSM Coverage for file FSM_010.v --
+
+FSM_ID: cs
+    Current State Object : cs
+    ----------------------
+    State Value MapInfo :
+    ---------------------
+Line          State Name               Value
+----          ----------               -----
+  22                IDLE                   0
+  27                ZERO                   1
+  32                 ONE                   2
+  37               STORE                   3
+    Covered States :
+    ----------------
+                   State           Hit_count
+                   -----           ---------
+                    IDLE                 755
+                    ZERO                1519
+                     ONE                 881
+                   STORE                 594
+    Covered Transitions :
+    ---------------------
+Line            Trans_ID           Hit_count          Transition          
+----            --------           ---------          ----------          
+  26                   0                 518          IDLE -> ZERO        
+  29                   1                 881          ZERO -> ONE         
+  48                   2                  28          ZERO -> IDLE        
+  36                   3                 594          ONE -> STORE        
+  34                   4                 286          ONE -> IDLE         
+  41                   5                 391          STORE -> ZERO       
+  39                   6                 203          STORE -> IDLE       
+
+
+    Summary                     Active      Hits    Misses % Covered
+    -------                     ------      ----    ------ ---------
+        States                       4         4         0     100.0
+        Transitions                  7         7         0     100.0
+Toggle Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    Toggle Bins                     30        30         0     100.0
+
+================================Toggle Details================================
+
+Toggle Coverage for File FSM_010.v --
+
+       Line                                   Node      1H->0L      0L->1H                          "Coverage"
+--------------------------------------------------------------------------------------------------------------
+         14                                      x           1           1                              100.00 
+         14                                    rst           1           1                              100.00 
+         14                                    clk           1           1                              100.00 
+         15                                      y           1           1                              100.00 
+         16                         users_count[6]           1           1                              100.00 
+         16                         users_count[5]           1           1                              100.00 
+         16                         users_count[4]           1           1                              100.00 
+         16                         users_count[3]           1           1                              100.00 
+         16                         users_count[2]           1           1                              100.00 
+         16                         users_count[1]           1           1                              100.00 
+         16                         users_count[0]           1           1                              100.00 
+         18                                  ns[1]           1           1                              100.00 
+         18                                  ns[0]           1           1                              100.00 
+         18                                  cs[1]           1           1                              100.00 
+         18                                  cs[0]           1           1                              100.00 
+
+Total Node Count     =         15 
+Toggled Node Count   =         15 
+Untoggled Node Count =          0 
+
+Toggle Coverage      =      100.0% (30 of 30 bins)
+
+=================================================================================
+=== File: FSM_tb.sv
+=================================================================================
+Statement Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    Stmts                           43        40         3      93.0
+
+================================Statement Details================================
+
+Statement Coverage for file FSM_tb.sv --
+
+    1                                                package FSM_Package;
+    2                                                
+    3                                                // Enums //
+    4                                                typedef enum bit [1:0] {IDLE=0,ZERO,ONE,STORE} state_e;
+    5                                                
+    6                                                // Class //
+    7                                                class fsm_transaction;
+    8                                                
+    9                                                // Class Variables //
+    10                                               rand bit  rst, x;
+    11                                               bit clk ;
+    12                                               
+    13                                               // Constraints block //
+    14                                               
+    15                                               constraint fsm_Cons {
+    16                                               
+    17                                                   //Reset to be asserted with a low probability//
+    18                                                   rst dist {1:=1,0:=99}; 
+    19                                                   //x must be 0 67% of the time
+    20                                                   x dist {1:=33,0:=67};
+    21                                               }
+    22                                               covergroup g @(posedge clk);
+    23                                               coverpoint x{bins data_010 = (0=>1=>0);}
+    24                                               endgroup
+    25                                               function new;
+    26              1                          1     g=new;
+    27                                               endfunction
+    28                                               
+    29                                               endclass
+    30                                               
+    31                                               endpackage
+    32                                               
+    33                                               import FSM_Package::*;
+    34                                               module FSM_tb();
+    35                                               	bit clk, rst, x;
+    36                                               	bit y,y_exp;
+    37                                               	bit [9:0] users_count,users_count_exp;
+    38                                               
+    39                                               	state_e  cs, ns;
+    40                                                FSM_010 dut(.*);
+    41                                               
+    42                                                integer error_count,correct_count,i;
+    43              1                          1      fsm_transaction a = new;
+    44                                               
+    45                                               initial
+    46                                               begin
+    47              1                          1     clk=0;
+    48              1                          1     forever begin
+    49              1                      10003     #1 clk=~clk;
+    49              2                      10002     
+    50              1                      10002     a.clk=clk;
+    51                                               end
+    52                                               
+    53                                               end
+    54                                               
+    55                                               initial
+    56                                               begin 
+    57                                               
+    58              1                          1     error_count=0;
+    59              1                          1     correct_count=0;
+    60              1                          1     rst=1;
+    61              1                          1     check_result ;
+    62              1                          1     for(i=0;i<5000;i=i+1)
+    62              2                       5000     
+    63                                               begin
+    64                                               ////////
+    65                                               assert(a.randomize());
+    66              1                       5000     rst=a.rst;
+    67              1                       5000     x=a.x;
+    68              1                       5000     check_result ;
+    69                                               end
+    70                                               ////////
+    71              1                          1     $display(" Number of error transactions %d",error_count);
+    72              1                          1     $display(" Number of correct transactions %d",correct_count);
+    73              1                          1     $stop;
+    74                                               end
+    75                                               task check_result ;
+    76              1                       5001        @(negedge clk);
+    77                                                if(y_exp!=y || users_count!=users_count_exp) begin
+    78              1                    ***0***         $display("incorrect result %t",$time);
+    79              1                    ***0***         error_count=error_count+1;
+    80                                                end
+    81                                                else
+    82              1                       5001       correct_count=correct_count+1;
+    83                                               
+    84                                               endtask
+    85                                               
+    86              1                       5114     	always @(*) begin
+    87                                               		case (cs)
+    88                                               			IDLE: begin
+    89              1                       1038                                     y_exp=0;
+    90                                               				if (x)
+    91              1                        505     					ns = IDLE;
+    92                                               				else 
+    93              1                        533     					ns = ZERO; end
+    94                                               			ZERO:begin
+    95              1                       1799                                      y_exp=0;
+    96                                               				if (x)
+    97              1                        890     					ns = ONE;
+    98                                               				else 
+    99              1                        909     					ns = ZERO;end
+    100                                              			ONE: begin
+    101             1                       1482                                     y_exp=0;
+    102                                              				if (x)
+    103             1                        881     					ns = IDLE;
+    104                                              				else 
+    105             1                        601     					ns = STORE;end
+    106                                              			STORE: begin
+    107             1                        795                                     y_exp=1;
+    108                                              				if (x)
+    109             1                        201     					ns = IDLE;
+    110                                              				else 
+    111             1                        594     					ns = ZERO;end
+    112             1                    ***0***     			default: 	ns = IDLE;
+    113                                              		endcase
+    114                                              	end
+    115                                              
+    116             1                       3749     	always @(posedge clk or posedge rst) begin
+    117                                              		if(rst) begin
+    118             1                        100     			cs <= IDLE;
+    119                                              		end
+    120                                              		else begin
+    121             1                       3649     			cs <= ns;
+    122                                              		end
+    123                                              	end
+    124                                              
+    125             1                       2982     	always @(posedge clk or posedge rst) begin
+    126                                              		if(rst) begin
+    127             1                        100     			users_count_exp <= 0;
+    128                                              		end
+    129                                              		else begin
+    130                                              			if (cs==STORE)
+    131             1                        591     				users_count_exp <= users_count_exp + 1;
+    132                                              		end
+    133                                              	end
+    134                                              endmodule
+    135                                              
+
+Branch Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    Branches                        21        19         2      90.4
+
+================================Branch Details================================
+
+Branch Coverage for file FSM_tb.sv --
+
+------------------------------------IF Branch------------------------------------
+    77                                      5001     Count coming in to IF
+    77              1                    ***0***      if(y_exp!=y || users_count!=users_count_exp) begin
+    81              1                       5001      else
+Branch totals: 1 hit of 2 branches = 50.0%
+
+------------------------------------CASE Branch------------------------------------
+    87                                      5114     Count coming in to CASE
+    88              1                       1038     			IDLE: begin
+    94              1                       1799     			ZERO:begin
+    100             1                       1482     			ONE: begin
+    106             1                        795     			STORE: begin
+    112             1                    ***0***     			default: 	ns = IDLE;
+Branch totals: 4 hits of 5 branches = 80.0%
+
+------------------------------------IF Branch------------------------------------
+    90                                      1038     Count coming in to IF
+    90              1                        505     				if (x)
+    92              1                        533     				else 
+Branch totals: 2 hits of 2 branches = 100.0%
+
+------------------------------------IF Branch------------------------------------
+    96                                      1799     Count coming in to IF
+    96              1                        890     				if (x)
+    98              1                        909     				else 
+Branch totals: 2 hits of 2 branches = 100.0%
+
+------------------------------------IF Branch------------------------------------
+    102                                     1482     Count coming in to IF
+    102             1                        881     				if (x)
+    104             1                        601     				else 
+Branch totals: 2 hits of 2 branches = 100.0%
+
+------------------------------------IF Branch------------------------------------
+    108                                      795     Count coming in to IF
+    108             1                        201     				if (x)
+    110             1                        594     				else 
+Branch totals: 2 hits of 2 branches = 100.0%
+
+------------------------------------IF Branch------------------------------------
+    117                                     3749     Count coming in to IF
+    117             1                        100     		if(rst) begin
+    120             1                       3649     		else begin
+Branch totals: 2 hits of 2 branches = 100.0%
+
+------------------------------------IF Branch------------------------------------
+    126                                     2982     Count coming in to IF
+    126             1                        100     		if(rst) begin
+    129             1                       2882     		else begin
+Branch totals: 2 hits of 2 branches = 100.0%
+
+------------------------------------IF Branch------------------------------------
+    130                                     2882     Count coming in to IF
+    130             1                        591     			if (cs==STORE)
+                                            2291     All False Count
+Branch totals: 2 hits of 2 branches = 100.0%
+
+
+Condition Coverage:
+    Enabled Coverage            Active   Covered    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    FEC Condition Terms              2         0         2       0.0
+
+================================Condition Details================================
+
+Condition Coverage for file FSM_tb.sv --
+
+----------------Focused Condition View-------------------
+Line       77 Item    1  ((y_exp != y) || (users_count != users_count_exp))
+Condition totals: 0 of 2 input terms covered = 0.0%
+
+                        Input Term   Covered  Reason for no coverage   Hint
+                       -----------  --------  -----------------------  --------------
+                      (y_exp != y)         N  '_1' not hit             Hit '_1'
+  (users_count != users_count_exp)         N  '_1' not hit             Hit '_1'
+
+     Rows:       Hits  FEC Target                          Non-masking condition(s)      
+ ---------  ---------  --------------------                -------------------------     
+  Row   1:          1  (y_exp != y)_0                      ~(users_count != users_count_exp)
+  Row   2:    ***0***  (y_exp != y)_1                      -                             
+  Row   3:          1  (users_count != users_count_exp)_0  ~(y_exp != y)                 
+  Row   4:    ***0***  (users_count != users_count_exp)_1  ~(y_exp != y)                 
+
+
+Expression Coverage:
+    Enabled Coverage            Active   Covered    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    FEC Expression Terms             0         0         0     100.0
+FSM Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    FSMs                                                       100.0
+        States                       4         4         0     100.0
+        Transitions                  7         7         0     100.0
+
+================================FSM Details================================
+
+FSM Coverage for file FSM_tb.sv --
+
+FSM_ID: cs
+    Current State Object : cs
+    ----------------------
+    State Value MapInfo :
+    ---------------------
+Line          State Name               Value
+----          ----------               -----
+  88                IDLE                   0
+  94                ZERO                   1
+ 100                 ONE                   2
+ 106               STORE                   3
+    Covered States :
+    ----------------
+                   State           Hit_count
+                   -----           ---------
+                    IDLE                 755
+                    ZERO                1519
+                     ONE                 881
+                   STORE                 594
+    Covered Transitions :
+    ---------------------
+Line            Trans_ID           Hit_count          Transition          
+----            --------           ---------          ----------          
+  93                   0                 518          IDLE -> ZERO        
+  97                   1                 881          ZERO -> ONE         
+ 118                   2                  28          ZERO -> IDLE        
+ 105                   3                 594          ONE -> STORE        
+ 103                   4                 286          ONE -> IDLE         
+ 111                   5                 391          STORE -> ZERO       
+ 109                   6                 203          STORE -> IDLE       
+
+
+    Summary                     Active      Hits    Misses % Covered
+    -------                     ------      ----    ------ ---------
+        States                       4         4         0     100.0
+        Transitions                  7         7         0     100.0
+Toggle Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    Toggle Bins                    250        96       154      38.4
+
+================================Toggle Details================================
+
+Toggle Coverage for File FSM_tb.sv --
+
+       Line                                   Node      1H->0L      0L->1H                          "Coverage"
+--------------------------------------------------------------------------------------------------------------
+         35                                      x           1           1                              100.00 
+         35                                    rst           1           1                              100.00 
+         35                                    clk           1           1                              100.00 
+         36                                  y_exp           1           1                              100.00 
+         36                                      y           1           1                              100.00 
+         37                     users_count_exp[9]           0           0                                0.00 
+         37                     users_count_exp[8]           0           0                                0.00 
+         37                     users_count_exp[7]           0           0                                0.00 
+         37                     users_count_exp[6]           1           1                              100.00 
+         37                     users_count_exp[5]           1           1                              100.00 
+         37                     users_count_exp[4]           1           1                              100.00 
+         37                     users_count_exp[3]           1           1                              100.00 
+         37                     users_count_exp[2]           1           1                              100.00 
+         37                     users_count_exp[1]           1           1                              100.00 
+         37                     users_count_exp[0]           1           1                              100.00 
+         37                         users_count[9]           0           0                                0.00 
+         37                         users_count[8]           0           0                                0.00 
+         37                         users_count[7]           0           0                                0.00 
+         37                         users_count[6]           1           1                              100.00 
+         37                         users_count[5]           1           1                              100.00 
+         37                         users_count[4]           1           1                              100.00 
+         37                         users_count[3]           1           1                              100.00 
+         37                         users_count[2]           1           1                              100.00 
+         37                         users_count[1]           1           1                              100.00 
+         37                         users_count[0]           1           1                              100.00 
+         39                                     ns               ENUM type       Value       Count 
+                                                                      IDLE           1      100.00 
+                                                                      ZERO           1      100.00 
+                                                                       ONE           1      100.00 
+                                                                     STORE           1      100.00 
+         39                                     cs               ENUM type       Value       Count 
+                                                                      IDLE           1      100.00 
+                                                                      ZERO           2      100.00 
+                                                                       ONE           2      100.00 
+                                                                     STORE           2      100.00 
+         42                                   i[9]           1           1                              100.00 
+         42                                   i[8]           1           1                              100.00 
+         42                                   i[7]           1           1                              100.00 
+         42                                   i[6]           1           1                              100.00 
+         42                                   i[5]           1           1                              100.00 
+         42                                   i[4]           1           1                              100.00 
+         42                                   i[3]           1           1                              100.00 
+         42                                  i[31]           0           0                                0.00 
+         42                                  i[30]           0           0                                0.00 
+         42                                   i[2]           1           1                              100.00 
+         42                                  i[29]           0           0                                0.00 
+         42                                  i[28]           0           0                                0.00 
+         42                                  i[27]           0           0                                0.00 
+         42                                  i[26]           0           0                                0.00 
+         42                                  i[25]           0           0                                0.00 
+         42                                  i[24]           0           0                                0.00 
+         42                                  i[23]           0           0                                0.00 
+         42                                  i[22]           0           0                                0.00 
+         42                                  i[21]           0           0                                0.00 
+         42                                  i[20]           0           0                                0.00 
+         42                                   i[1]           1           1                              100.00 
+         42                                  i[19]           0           0                                0.00 
+         42                                  i[18]           0           0                                0.00 
+         42                                  i[17]           0           0                                0.00 
+         42                                  i[16]           0           0                                0.00 
+         42                                  i[15]           0           0                                0.00 
+         42                                  i[14]           0           0                                0.00 
+         42                                  i[13]           0           0                                0.00 
+         42                                  i[12]           0           1                               50.00 
+         42                                  i[11]           1           1                              100.00 
+         42                                  i[10]           1           1                              100.00 
+         42                                   i[0]           1           1                              100.00 
+         42                         error_count[9]           0           0                                0.00 
+         42                         error_count[8]           0           0                                0.00 
+         42                         error_count[7]           0           0                                0.00 
+         42                         error_count[6]           0           0                                0.00 
+         42                         error_count[5]           0           0                                0.00 
+         42                         error_count[4]           0           0                                0.00 
+         42                         error_count[3]           0           0                                0.00 
+         42                        error_count[31]           0           0                                0.00 
+         42                        error_count[30]           0           0                                0.00 
+         42                         error_count[2]           0           0                                0.00 
+         42                        error_count[29]           0           0                                0.00 
+         42                        error_count[28]           0           0                                0.00 
+         42                        error_count[27]           0           0                                0.00 
+         42                        error_count[26]           0           0                                0.00 
+         42                        error_count[25]           0           0                                0.00 
+         42                        error_count[24]           0           0                                0.00 
+         42                        error_count[23]           0           0                                0.00 
+         42                        error_count[22]           0           0                                0.00 
+         42                        error_count[21]           0           0                                0.00 
+         42                        error_count[20]           0           0                                0.00 
+         42                         error_count[1]           0           0                                0.00 
+         42                        error_count[19]           0           0                                0.00 
+         42                        error_count[18]           0           0                                0.00 
+         42                        error_count[17]           0           0                                0.00 
+         42                        error_count[16]           0           0                                0.00 
+         42                        error_count[15]           0           0                                0.00 
+         42                        error_count[14]           0           0                                0.00 
+         42                        error_count[13]           0           0                                0.00 
+         42                        error_count[12]           0           0                                0.00 
+         42                        error_count[11]           0           0                                0.00 
+         42                        error_count[10]           0           0                                0.00 
+         42                         error_count[0]           0           0                                0.00 
+         42                       correct_count[9]           1           1                              100.00 
+         42                       correct_count[8]           1           1                              100.00 
+         42                       correct_count[7]           1           1                              100.00 
+         42                       correct_count[6]           1           1                              100.00 
+         42                       correct_count[5]           1           1                              100.00 
+         42                       correct_count[4]           1           1                              100.00 
+         42                       correct_count[3]           1           1                              100.00 
+         42                      correct_count[31]           0           0                                0.00 
+         42                      correct_count[30]           0           0                                0.00 
+         42                       correct_count[2]           1           1                              100.00 
+         42                      correct_count[29]           0           0                                0.00 
+         42                      correct_count[28]           0           0                                0.00 
+         42                      correct_count[27]           0           0                                0.00 
+         42                      correct_count[26]           0           0                                0.00 
+         42                      correct_count[25]           0           0                                0.00 
+         42                      correct_count[24]           0           0                                0.00 
+         42                      correct_count[23]           0           0                                0.00 
+         42                      correct_count[22]           0           0                                0.00 
+         42                      correct_count[21]           0           0                                0.00 
+         42                      correct_count[20]           0           0                                0.00 
+         42                       correct_count[1]           1           1                              100.00 
+         42                      correct_count[19]           0           0                                0.00 
+         42                      correct_count[18]           0           0                                0.00 
+         42                      correct_count[17]           0           0                                0.00 
+         42                      correct_count[16]           0           0                                0.00 
+         42                      correct_count[15]           0           0                                0.00 
+         42                      correct_count[14]           0           0                                0.00 
+         42                      correct_count[13]           0           0                                0.00 
+         42                      correct_count[12]           0           1                               50.00 
+         42                      correct_count[11]           1           1                              100.00 
+         42                      correct_count[10]           1           1                              100.00 
+         42                       correct_count[0]           1           1                              100.00 
+
+Total Node Count     =        129 
+Toggled Node Count   =         51 
+Untoggled Node Count =         78 
+
+Toggle Coverage      =       38.4% (96 of 250 bins)
+
+COVERGROUP COVERAGE:
+-----------------------------------------------------------------------------------------------
+Covergroup                                             Metric       Goal    Status               
+                                                                                              
+-----------------------------------------------------------------------------------------------
+ TYPE /FSM_Package/fsm_transaction/g                   100.0%        100    Covered              
+    covered/total bins:                                     1          1                      
+    missing/total bins:                                     0          1                      
+    % Hit:                                             100.0%        100                      
+    Coverpoint g::x                                    100.0%        100    Covered              
+        covered/total bins:                                 1          1                      
+        missing/total bins:                                 0          1                      
+        % Hit:                                         100.0%        100                      
+ CLASS fsm_transaction
+ Covergroup instance \/FSM_Package::fsm_transaction::g  
+                                                       100.0%        100    Covered              
+    covered/total bins:                                     1          1                      
+    missing/total bins:                                     0          1                      
+    % Hit:                                             100.0%        100                      
+    Coverpoint x                                       100.0%        100    Covered              
+        covered/total bins:                                 1          1                      
+        missing/total bins:                                 0          1                      
+        % Hit:                                         100.0%        100                      
+        bin data_010                                      760          1    Covered              
+
+TOTAL COVERGROUP COVERAGE: 100.0%  COVERGROUP TYPES: 1
+
+ASSERTION RESULTS:
+-------------------------------------------------------
+Name                 File(Line)           Failure Pass 
+                                          Count   Count 
+-------------------------------------------------------
+/FSM_tb/#ublk#79181474#63/immed__65
+                     FSM_tb.sv(65)              0     1
+
+Total Coverage By File (code coverage only, filtered view): 67.0%
+

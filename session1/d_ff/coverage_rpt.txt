@@ -1,0 +1,90 @@
+Coverage Report by file with details
+
+=================================================================================
+=== File: dff.v
+=================================================================================
+Statement Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    Stmts                            5         5         0     100.0
+
+================================Statement Details================================
+
+Statement Coverage for file dff.v --
+
+    1                                                module dff #(parameter USE_EN = 1) (clk, rst, d, q, en);
+    2                                                input clk, rst, d, en;
+    3                                                output reg q;
+    4                                                
+    5               1                         12     always @(posedge clk) begin 
+    6                                                   if (rst)
+    7               1                          4           q <= 0;
+    8                                                   else
+    9                                                      if(USE_EN)
+    10                                                        if (en)
+    11              1                          2                 q <= d;
+    12                                                        else 
+    13              1                          2                 q <= q;
+    14                                                     else 
+    15              1                          4              q <= d;
+    16                                               end 
+    17                                               
+    18                                               endmodule
+
+Branch Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    Branches                         3         3         0     100.0
+
+================================Branch Details================================
+
+Branch Coverage for file dff.v --
+
+------------------------------------IF Branch------------------------------------
+    6                                         12     Count coming in to IF
+    6               1                          4        if (rst)
+    10              1                          2              if (en)
+    12              1                          6              else 
+Branch totals: 3 hits of 3 branches = 100.0%
+
+
+Condition Coverage:
+    Enabled Coverage            Active   Covered    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    FEC Condition Terms              0         0         0     100.0
+Expression Coverage:
+    Enabled Coverage            Active   Covered    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    FEC Expression Terms             0         0         0     100.0
+FSM Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    FSMs                                                       100.0
+        States                       0         0         0     100.0
+        Transitions                  0         0         0     100.0
+Toggle Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    Toggle Bins                     10        10         0     100.0
+
+================================Toggle Details================================
+
+Toggle Coverage for File dff.v --
+
+       Line                                   Node      1H->0L      0L->1H  "Coverage"
+--------------------------------------------------------------------------------------
+          2                                    rst           2           2      100.00 
+          2                                     en           2           2      100.00 
+          2                                      d           2           2      100.00 
+          2                                    clk           2           2      100.00 
+          3                                      q           2           2      100.00 
+
+Total Node Count     =          5 
+Toggled Node Count   =          5 
+Untoggled Node Count =          0 
+
+Toggle Coverage      =      100.0% (10 of 10 bins)
+
+
+Total Coverage By File (code coverage only, filtered view): 100.0%
+
