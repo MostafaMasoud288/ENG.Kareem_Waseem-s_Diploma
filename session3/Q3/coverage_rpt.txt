@@ -1,0 +1,415 @@
+Coverage Report by file with details
+
+=================================================================================
+=== File: ram.sv
+=================================================================================
+Statement Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    Stmts                            3         3         0     100.0
+
+================================Statement Details================================
+
+Statement Coverage for file ram.sv --
+
+    1                                                module my_mem(
+    2                                                input clk,
+    3                                                input write,
+    4                                                input read,
+    5                                                input [7:0] data_in,
+    6                                                input [15:0] address,
+    7                                                output reg [7:0] data_out
+    8                                                
+    9                                                );
+    10                                               // Declare a 9-bit associative array using the logic data type & the key of int datatype
+    11                                               logic [8:0] mem_array [int];
+    12              1                        231     always @(posedge clk) begin
+    13                                               if (write)
+    14              1                        115     mem_array[address] = {~^data_in, data_in};
+    15                                               else if (read)
+    16              1                        115     data_out = mem_array[address];
+    17                                               end
+    18                                               endmodule
+
+Branch Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    Branches                         3         3         0     100.0
+
+================================Branch Details================================
+
+Branch Coverage for file ram.sv --
+
+------------------------------------IF Branch------------------------------------
+    13                                       231     Count coming in to IF
+    13              1                        115     if (write)
+    15              1                        115     else if (read)
+                                               1     All False Count
+Branch totals: 3 hits of 3 branches = 100.0%
+
+
+Condition Coverage:
+    Enabled Coverage            Active   Covered    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    FEC Condition Terms              0         0         0     100.0
+Expression Coverage:
+    Enabled Coverage            Active   Covered    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    FEC Expression Terms             0         0         0     100.0
+FSM Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    FSMs                                                       100.0
+        States                       0         0         0     100.0
+        Transitions                  0         0         0     100.0
+Toggle Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    Toggle Bins                     70        70         0     100.0
+
+================================Toggle Details================================
+
+Toggle Coverage for File ram.sv --
+
+       Line                                   Node      1H->0L      0L->1H  "Coverage"
+--------------------------------------------------------------------------------------
+          2                                    clk           1           1      100.00 
+          3                                  write           1           1      100.00 
+          4                                   read           1           1      100.00 
+          5                             data_in[7]           1           1      100.00 
+          5                             data_in[6]           1           1      100.00 
+          5                             data_in[5]           1           1      100.00 
+          5                             data_in[4]           1           1      100.00 
+          5                             data_in[3]           1           1      100.00 
+          5                             data_in[2]           1           1      100.00 
+          5                             data_in[1]           1           1      100.00 
+          5                             data_in[0]           1           1      100.00 
+          6                             address[9]           1           1      100.00 
+          6                             address[8]           1           1      100.00 
+          6                             address[7]           1           1      100.00 
+          6                             address[6]           1           1      100.00 
+          6                             address[5]           1           1      100.00 
+          6                             address[4]           1           1      100.00 
+          6                             address[3]           1           1      100.00 
+          6                             address[2]           1           1      100.00 
+          6                             address[1]           1           1      100.00 
+          6                            address[15]           1           1      100.00 
+          6                            address[14]           1           1      100.00 
+          6                            address[13]           1           1      100.00 
+          6                            address[12]           1           1      100.00 
+          6                            address[11]           1           1      100.00 
+          6                            address[10]           1           1      100.00 
+          6                             address[0]           1           1      100.00 
+          7                            data_out[7]           1           1      100.00 
+          7                            data_out[6]           1           1      100.00 
+          7                            data_out[5]           1           1      100.00 
+          7                            data_out[4]           1           1      100.00 
+          7                            data_out[3]           1           1      100.00 
+          7                            data_out[2]           1           1      100.00 
+          7                            data_out[1]           1           1      100.00 
+          7                            data_out[0]           1           1      100.00 
+
+Total Node Count     =         35 
+Toggled Node Count   =         35 
+Untoggled Node Count =          0 
+
+Toggle Coverage      =      100.0% (70 of 70 bins)
+
+=================================================================================
+=== File: ram_tb2.sv
+=================================================================================
+Statement Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    Stmts                           63        61         2      96.8
+
+================================Statement Details================================
+
+Statement Coverage for file ram_tb2.sv --
+
+    1                                                
+    2                                                
+    3                                                import pack::*;
+    4                                                module ram_tb2();
+    5                                                
+    6                                                bit clk=0;
+    7                                                logic write;
+    8                                                logic read;
+    9                                                logic [7:0] data_in;
+    10                                               logic [15:0] address;
+    11                                               logic [7:0] data_out;
+    12                                               
+    13                                               int error=0,correct=0;
+    14                                               
+    15                                               localparam No_of_inputs=100 ;
+    16                                               
+    17                                               my_mem tb(.*);
+    18              1                        463     always #5 clk=!clk;
+    18              2                        462     
+    19                                               
+    20              1                          1     transaction tr=new();
+    21                                               
+    22                                               initial begin
+    23              1                          1         tr.write=1;
+    24              1                          1         tr.read=0;
+    25              1                          1         write=tr.write;
+    26              1                          1         read=tr.read;
+    27                                               
+    28              1                          1         stimulus_gen(tr,No_of_inputs);
+    29                                               
+    30              1                          1         for(int i=0; i<No_of_inputs;i++)begin
+    30              2                        100     
+    31              1                        100             data_in=tr.data_to_write_array[i];
+    32              1                        100             address=tr.address_array[i];
+    33              1                        100             @(negedge clk);
+    34                                                   end
+    35              1                          1         tr.write=0;
+    36              1                          1         tr.read=1;
+    37              1                          1         write=tr.write;
+    38              1                          1         read=tr.read;
+    39                                               
+    40              1                          1         for(int i=No_of_inputs-1; i>=0;i--)begin
+    40              2                        100     
+    41              1                        100             address=tr.address_array[i];
+    42              1                        100             tr.data_out=data_out;
+    43              1                        100             self_check(tr);
+    44              1                        100             tr.data_read_queue.push_back(data_out);
+    45                                               
+    46                                                   end
+    47              1                        101         while(tr.data_read_queue.size())
+    48              1                        100             $display("data =%0d",tr.data_read_queue.pop_front);
+    49                                               
+    50                                                   // for code coverage
+    51              1                          1         tr.write=1;
+    52              1                          1         tr.read=0;
+    53              1                          1         write=tr.write;
+    54              1                          1         read=tr.read;
+    55                                               
+    56              1                          1         stimulus_gen(tr,15);
+    57                                                   
+    58              1                          1         for(int i=0; i<15;i++)begin
+    58              2                         15     
+    59              1                         15             data_in=tr.data_to_write_array[i];
+    60              1                         15             address=tr.address_array[i];
+    61              1                         15             @(negedge clk);
+    62                                                   end
+    63              1                          1         tr.write=0;
+    64              1                          1         tr.read=1;
+    65              1                          1         write=tr.write;
+    66              1                          1         read=tr.read;
+    67                                               
+    68              1                          1         for(int i=14; i>=0;i--)begin
+    68              2                         15     
+    69              1                         15             address=tr.address_array[i];
+    70              1                         15             tr.data_out=data_out;
+    71              1                         15             self_check(tr);
+    72              1                         15             tr.data_read_queue.push_back(data_out);
+    73                                               
+    74                                                   end
+    75              1                          1      tr.write=0;
+    76              1                          1         tr.read=0;
+    77              1                          1         write=tr.write;
+    78              1                          1         read=tr.read;
+    79              1                          1      self_check(tr);
+    80                                                
+    81              1                          1         $display("error=%0d,correct=%0d",error,correct);
+    82                                               
+    83              1                          1     $stop;
+    84                                               
+    85                                               end
+    86                                               
+    87                                               task stimulus_gen(transaction trans,input int no_of_inputs);
+    88              1                          2         for(int i=0;i<no_of_inputs;i++)begin
+    88              2                        115     
+    89                                                       assert(trans.randomize());
+    90              1                        115             trans.address_array[i]=trans.address;
+    91              1                        115             trans.data_to_write_array[i]=trans.data_in;
+    92                                                   end
+    93              1                          2         golden_model(trans);
+    94                                               endtask
+    95                                               
+    96                                               task golden_model(transaction fill);
+    97                                                   if(tr.write)begin
+    98              1                        202             foreach(fill.address_array[i])begin//{~^data_in, data_in}
+    99              1                        200                 fill.data_read_expect_assoc[fill.address_array[i]]={~^fill.data_to_write_array[i],fill.data_to_write_array[i]};
+    100                                                      end
+    101                                                  end
+    102                                              endtask
+    103                                              
+    104                                              task self_check(transaction tr);
+    105             1                        116         @(negedge clk);
+    106                                                  if(tr.data_read_expect_assoc[address] != data_out)begin
+    107             1                    ***0***             $display("@%0t there is error, address=%0d ,data_out=%0d ,right data_out=%0d",$time ,address,tr.data_out,tr.data_read_expect_assoc[address]);
+    108             1                    ***0***             error++;
+    109                                                  end
+    110                                                  else
+    111             1                        116         correct++;
+    112                                              endtask
+    113                                              
+    114                                              endmodule
+    115                                              
+
+Branch Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    Branches                         4         2         2      50.0
+
+================================Branch Details================================
+
+Branch Coverage for file ram_tb2.sv --
+
+------------------------------------IF Branch------------------------------------
+    97                                         2     Count coming in to IF
+    97              1                          2         if(tr.write)begin
+                                         ***0***     All False Count
+Branch totals: 1 hit of 2 branches = 50.0%
+
+------------------------------------IF Branch------------------------------------
+    106                                      116     Count coming in to IF
+    106             1                    ***0***         if(tr.data_read_expect_assoc[address] != data_out)begin
+    110             1                        116         else
+Branch totals: 1 hit of 2 branches = 50.0%
+
+
+Condition Coverage:
+    Enabled Coverage            Active   Covered    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    FEC Condition Terms              0         0         0     100.0
+Expression Coverage:
+    Enabled Coverage            Active   Covered    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    FEC Expression Terms             0         0         0     100.0
+FSM Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    FSMs                                                       100.0
+        States                       0         0         0     100.0
+        Transitions                  0         0         0     100.0
+Toggle Coverage:
+    Enabled Coverage            Active      Hits    Misses % Covered
+    ----------------            ------      ----    ------ ---------
+    Toggle Bins                    198        83       115      41.9
+
+================================Toggle Details================================
+
+Toggle Coverage for File ram_tb2.sv --
+
+       Line                                   Node      1H->0L      0L->1H  "Coverage"
+--------------------------------------------------------------------------------------
+          6                                    clk           1           1      100.00 
+          7                                  write           1           1      100.00 
+          8                                   read           1           1      100.00 
+          9                             data_in[7]           1           1      100.00 
+          9                             data_in[6]           1           1      100.00 
+          9                             data_in[5]           1           1      100.00 
+          9                             data_in[4]           1           1      100.00 
+          9                             data_in[3]           1           1      100.00 
+          9                             data_in[2]           1           1      100.00 
+          9                             data_in[1]           1           1      100.00 
+          9                             data_in[0]           1           1      100.00 
+         10                             address[9]           1           1      100.00 
+         10                             address[8]           1           1      100.00 
+         10                             address[7]           1           1      100.00 
+         10                             address[6]           1           1      100.00 
+         10                             address[5]           1           1      100.00 
+         10                             address[4]           1           1      100.00 
+         10                             address[3]           1           1      100.00 
+         10                             address[2]           1           1      100.00 
+         10                             address[1]           1           1      100.00 
+         10                            address[15]           1           1      100.00 
+         10                            address[14]           1           1      100.00 
+         10                            address[13]           1           1      100.00 
+         10                            address[12]           1           1      100.00 
+         10                            address[11]           1           1      100.00 
+         10                            address[10]           1           1      100.00 
+         10                             address[0]           1           1      100.00 
+         11                            data_out[7]           1           1      100.00 
+         11                            data_out[6]           1           1      100.00 
+         11                            data_out[5]           1           1      100.00 
+         11                            data_out[4]           1           1      100.00 
+         11                            data_out[3]           1           1      100.00 
+         11                            data_out[2]           1           1      100.00 
+         11                            data_out[1]           1           1      100.00 
+         11                            data_out[0]           1           1      100.00 
+         13                               error[9]           0           0        0.00 
+         13                               error[8]           0           0        0.00 
+         13                               error[7]           0           0        0.00 
+         13                               error[6]           0           0        0.00 
+         13                               error[5]           0           0        0.00 
+         13                               error[4]           0           0        0.00 
+         13                               error[3]           0           0        0.00 
+         13                              error[31]           0           0        0.00 
+         13                              error[30]           0           0        0.00 
+         13                               error[2]           0           0        0.00 
+         13                              error[29]           0           0        0.00 
+         13                              error[28]           0           0        0.00 
+         13                              error[27]           0           0        0.00 
+         13                              error[26]           0           0        0.00 
+         13                              error[25]           0           0        0.00 
+         13                              error[24]           0           0        0.00 
+         13                              error[23]           0           0        0.00 
+         13                              error[22]           0           0        0.00 
+         13                              error[21]           0           0        0.00 
+         13                              error[20]           0           0        0.00 
+         13                               error[1]           0           0        0.00 
+         13                              error[19]           0           0        0.00 
+         13                              error[18]           0           0        0.00 
+         13                              error[17]           0           0        0.00 
+         13                              error[16]           0           0        0.00 
+         13                              error[15]           0           0        0.00 
+         13                              error[14]           0           0        0.00 
+         13                              error[13]           0           0        0.00 
+         13                              error[12]           0           0        0.00 
+         13                              error[11]           0           0        0.00 
+         13                              error[10]           0           0        0.00 
+         13                               error[0]           0           0        0.00 
+         13                             correct[9]           0           0        0.00 
+         13                             correct[8]           0           0        0.00 
+         13                             correct[7]           0           0        0.00 
+         13                             correct[6]           0           1       50.00 
+         13                             correct[5]           1           1      100.00 
+         13                             correct[4]           1           1      100.00 
+         13                             correct[3]           1           1      100.00 
+         13                            correct[31]           0           0        0.00 
+         13                            correct[30]           0           0        0.00 
+         13                             correct[2]           1           1      100.00 
+         13                            correct[29]           0           0        0.00 
+         13                            correct[28]           0           0        0.00 
+         13                            correct[27]           0           0        0.00 
+         13                            correct[26]           0           0        0.00 
+         13                            correct[25]           0           0        0.00 
+         13                            correct[24]           0           0        0.00 
+         13                            correct[23]           0           0        0.00 
+         13                            correct[22]           0           0        0.00 
+         13                            correct[21]           0           0        0.00 
+         13                            correct[20]           0           0        0.00 
+         13                             correct[1]           1           1      100.00 
+         13                            correct[19]           0           0        0.00 
+         13                            correct[18]           0           0        0.00 
+         13                            correct[17]           0           0        0.00 
+         13                            correct[16]           0           0        0.00 
+         13                            correct[15]           0           0        0.00 
+         13                            correct[14]           0           0        0.00 
+         13                            correct[13]           0           0        0.00 
+         13                            correct[12]           0           0        0.00 
+         13                            correct[11]           0           0        0.00 
+         13                            correct[10]           0           0        0.00 
+         13                             correct[0]           1           1      100.00 
+
+Total Node Count     =         99 
+Toggled Node Count   =         41 
+Untoggled Node Count =         58 
+
+Toggle Coverage      =       41.9% (83 of 198 bins)
+
+
+ASSERTION RESULTS:
+-------------------------------------------------------
+Name                 File(Line)           Failure Pass 
+                                          Count   Count 
+-------------------------------------------------------
+/ram_tb2/stimulus_gen/#anonblk#142830114#88#4#/#ublk#142830114#88/immed__89
+                     ram_tb2.sv(89)             0     1
+
+Total Coverage By File (code coverage only, filtered view): 75.1%
+
