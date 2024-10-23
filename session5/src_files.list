@@ -1,0 +1,14 @@
+shift_reg.sv
+shift_reg_if.sv
+shift_reg_seq_item.sv
+shift_reg_reset_sequence.sv
+shift_reg_sequencer.sv
+shift_reg_config.sv
+shift_reg_agent.sv
+shift_reg_driver.sv
+shift_reg_env.sv
+shift_reg_monitor.sv
+shift_reg_coverage_pck.sv
+shift_reg_scoreboard_pck.sv
+shift_reg_test.sv
+shift_reg_top.sv
